@@ -1,5 +1,5 @@
 ################################################################
-# NGINX configuration for Delicious Media sites - version 2
+# NGINX configuration for Delicious Media sites - version 4
 #
 
 server {
@@ -20,7 +20,18 @@ server {
 
     {vvv_tls_cert}
     {vvv_tls_key}
-    
+
+    ## To load missing images from the live site (or staging), uncomment this block and replace the URL in the rewrite line.
+    # Suggested approach here is to modify your local vvv-nginx.conf in your project. This will be overwritten when you reprovision.
+    #    location ~* \.(jpe?g|gif|png|pdf)$ {
+    #        try_files $uri @missing;
+    #    }
+    #    location @missing {
+    #        rewrite ^/(.*) https://live-site-url-here/$1 permanent;
+    #        break;
+    #    }
+    ##
+
     # rewrite for our WordPress layout
     if (!-e $request_filename) {
         rewrite /wp-admin$ $scheme://$host$uri/ permanent;
